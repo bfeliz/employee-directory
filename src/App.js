@@ -1,5 +1,6 @@
 import React from "react";
 import employees from "./employees.json";
+import Searchbar from "./components/searchbar";
 // import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 import "./App.css";
@@ -30,9 +31,9 @@ class App extends React.Component {
         const { currentSort } = this.state;
         let nextSort;
 
-        if (currentSort === "down") nextSort = "up";
-        else if (currentSort === "up") nextSort = "default";
-        else if (currentSort === "default") nextSort = "down";
+        if (currentSort === "down") nextSort = "default";
+        else if (currentSort === "up") nextSort = "down";
+        else if (currentSort === "default") nextSort = "up";
 
         this.setState({
             currentSort: nextSort
@@ -46,16 +47,19 @@ class App extends React.Component {
         return (
             data.length > 0 && (
                 <div className="container">
+                    <Searchbar></Searchbar>
                     <table className="text-left">
                         <thead>
                             <tr>
                                 <th>Employee ID</th>
+                                <th>Photo</th>
                                 <th>
+                                    Name
                                     <button
                                         className="btn-flat"
                                         onClick={this.onSortChange}
                                     >
-                                        Name click me
+                                        click me
                                     </button>
                                 </th>
                                 <th>Position</th>
@@ -68,6 +72,9 @@ class App extends React.Component {
                                 .map(p => (
                                     <tr>
                                         <td>{p.id}</td>
+                                        <td>
+                                            <img src={p.image} alt="employee" />
+                                        </td>
                                         <td>{p.name}</td>
                                         <td>{p.occupation}</td>
                                         <td>{p.location}</td>
