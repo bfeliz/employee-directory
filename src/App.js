@@ -2,7 +2,6 @@ import React from "react";
 import employees from "./employees.json";
 import Searchbar from "./components/searchbar";
 import Title from "./components/title/index";
-// import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 import "./App.css";
 
@@ -59,14 +58,18 @@ class App extends React.Component {
                 <div>
                     <Title></Title>
                     <div className="container">
-                        <div className="row">
-                            <div className="col s3 side-col">
+                        <div className="row search-bar-row">
+                            <div className="col s4"></div>
+                            <div className="col s4">
                                 <Searchbar
                                     value={this.state.search}
                                     handleInputChange={this.handleInputChange}
                                 />
                             </div>
-                            <div className="col s9">
+                            <div className="col s4"></div>
+                        </div>
+                        <div className="row final-table-row">
+                            <div className="col s12">
                                 <table className="text-left">
                                     <thead>
                                         <tr>
@@ -76,10 +79,9 @@ class App extends React.Component {
                                                 Name
                                                 <button
                                                     className="btn-flat"
+                                                    id="arrow-btn"
                                                     onClick={this.onSortChange}
-                                                >
-                                                    click
-                                                </button>
+                                                ></button>
                                             </th>
                                             <th>Position</th>
                                             <th>Address</th>
