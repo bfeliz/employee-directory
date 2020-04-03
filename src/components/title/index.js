@@ -7,7 +7,7 @@ function Title() {
             <nav>
                 <div className="nav-wrapper">
                     <div className="title center flow-text">
-                        Nickelodeon Employees
+                        Exuberant Employees
                     </div>
                 </div>
             </nav>

@@ -1,11 +1,11 @@
 import React from "react";
-import employees from "./employees.json";
+import API from "./utils/API";
 import Searchbar from "./components/searchbar";
 import Title from "./components/title/index";
 import "materialize-css/dist/css/materialize.min.css";
 import "./App.css";
 
-// compare names and sort appropriately
+// compare names for sort function
 const sortTypes = {
     up: {
         class: "sort-up",
@@ -25,10 +25,27 @@ class App extends React.Component {
     state = {
         currentSort: "default",
         search: "",
-        results: employees
+        results: []
     };
 
-    // method called when label name is clicked
+    // API call and reorganization of data
+    componentDidMount() {
+        API.getUsers()
+            .then(json =>
+                json.data.results.map(result => ({
+                    name: `${result.name.first} ${result.name.last}`,
+                    searchName: `${result.name.first}${result.name.last}`,
+                    id: result.registered.date,
+                    photo: result.picture.thumbnail,
+                    email: result.email,
+                    phone: result.phone
+                }))
+            )
+            .then(newData => this.setState({ results: newData }))
+            .catch(error => alert(error));
+    }
+
+    // function when sort button is clicked
     onSortChange = () => {
         const { currentSort } = this.state;
         let nextSort;
@@ -42,6 +59,7 @@ class App extends React.Component {
         });
     };
 
+    // listen for change in search bar
     handleInputChange = event => {
         const name = event.target.name;
         const value = event.target.value;
@@ -51,8 +69,9 @@ class App extends React.Component {
     };
 
     render() {
-        const data = employees;
+        const data = this.state.results;
         const { currentSort } = this.state;
+
         return (
             data.length > 0 && (
                 <div>
@@ -73,8 +92,6 @@ class App extends React.Component {
                                 <table className="text-left">
                                     <thead>
                                         <tr>
-                                            <th>Employee ID</th>
-                                            <th>Photo</th>
                                             <th>
                                                 Name
                                                 <button
@@ -83,30 +100,30 @@ class App extends React.Component {
                                                     onClick={this.onSortChange}
                                                 ></button>
                                             </th>
-                                            <th>Position</th>
-                                            <th>Address</th>
+                                            <th>Photo</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {[...data]
                                             .sort(sortTypes[currentSort].fn)
                                             .filter(p =>
-                                                p.key.includes(
-                                                    this.state.search
-                                                )
+                                                p.searchName
+                                                    .toLowerCase()
+                                                    .includes(this.state.search)
                                             )
                                             .map(p => (
                                                 <tr>
-                                                    <td>{p.id}</td>
+                                                    <td>{p.name}</td>
                                                     <td>
                                                         <img
-                                                            src={p.image}
+                                                            src={p.photo}
                                                             alt="employee"
                                                         />
                                                     </td>
-                                                    <td>{p.name}</td>
-                                                    <td>{p.occupation}</td>
-                                                    <td>{p.location}</td>
+                                                    <td>{p.email}</td>
+                                                    <td>{p.phone}</td>
                                                 </tr>
                                             ))}
                                     </tbody>
