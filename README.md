@@ -8,7 +8,7 @@ An application that shows the employees of a company along with necessary data. 
 
 The following image shows a glimpse of the application:
 
-![workout app](public/glimpse.png)
+![workout app](client/public/glimpse.png)
 
 ## Getting Started
 
