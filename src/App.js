@@ -1,6 +1,7 @@
 import React from "react";
 import employees from "./employees.json";
 import Searchbar from "./components/searchbar";
+import Title from "./components/title/index";
 // import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 import "./App.css";
@@ -23,7 +24,9 @@ const sortTypes = {
 
 class App extends React.Component {
     state = {
-        currentSort: "default"
+        currentSort: "default",
+        search: "",
+        results: employees
     };
 
     // method called when label name is clicked
@@ -40,48 +43,75 @@ class App extends React.Component {
         });
     };
 
+    handleInputChange = event => {
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({
+            [name]: value
+        });
+    };
+
     render() {
         const data = employees;
         const { currentSort } = this.state;
-
         return (
             data.length > 0 && (
-                <div className="container">
-                    <Searchbar></Searchbar>
-                    <table className="text-left">
-                        <thead>
-                            <tr>
-                                <th>Employee ID</th>
-                                <th>Photo</th>
-                                <th>
-                                    Name
-                                    <button
-                                        className="btn-flat"
-                                        onClick={this.onSortChange}
-                                    >
-                                        click me
-                                    </button>
-                                </th>
-                                <th>Position</th>
-                                <th>Address</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {[...data]
-                                .sort(sortTypes[currentSort].fn)
-                                .map(p => (
-                                    <tr>
-                                        <td>{p.id}</td>
-                                        <td>
-                                            <img src={p.image} alt="employee" />
-                                        </td>
-                                        <td>{p.name}</td>
-                                        <td>{p.occupation}</td>
-                                        <td>{p.location}</td>
-                                    </tr>
-                                ))}
-                        </tbody>
-                    </table>
+                <div>
+                    <Title></Title>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col s3 side-col">
+                                <Searchbar
+                                    value={this.state.search}
+                                    handleInputChange={this.handleInputChange}
+                                />
+                            </div>
+                            <div className="col s9">
+                                <table className="text-left">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee ID</th>
+                                            <th>Photo</th>
+                                            <th>
+                                                Name
+                                                <button
+                                                    className="btn-flat"
+                                                    onClick={this.onSortChange}
+                                                >
+                                                    click
+                                                </button>
+                                            </th>
+                                            <th>Position</th>
+                                            <th>Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {[...data]
+                                            .sort(sortTypes[currentSort].fn)
+                                            .filter(p =>
+                                                p.key.includes(
+                                                    this.state.search
+                                                )
+                                            )
+                                            .map(p => (
+                                                <tr>
+                                                    <td>{p.id}</td>
+                                                    <td>
+                                                        <img
+                                                            src={p.image}
+                                                            alt="employee"
+                                                        />
+                                                    </td>
+                                                    <td>{p.name}</td>
+                                                    <td>{p.occupation}</td>
+                                                    <td>{p.location}</td>
+                                                </tr>
+                                            ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )
         );

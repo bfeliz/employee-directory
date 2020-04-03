@@ -1,6 +1,9 @@
 img {
     max-height: 50px;
 }
+.container {
+    height: 100vh;
+}
 
 .App {
     text-align: center;

@@ -1,17 +1,18 @@
-import React, { Component } from "react";
-import ReactSearchBox from "react-search-box";
-import employees from "../employees.json";
-
-export default class App extends Component {
-    data = employees;
-
-    render() {
-        return (
-            <ReactSearchBox
+import React from "react";
+function Searchbar(props) {
+    return (
+        <div>
+            <input
+                onChange={props.handleInputChange}
+                value={props.search}
+                name="search"
+                type="text"
+                className="form-control"
                 placeholder="Search"
-                data={this.data}
-                callback={record => console.log(record)}
+                id="search"
             />
-        );
-    }
+        </div>
+    );
 }
+
+export default Searchbar;
