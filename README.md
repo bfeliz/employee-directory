@@ -4,7 +4,7 @@
 
 An application that shows the employees of a company along with necessary data. Employees can be sorted by name alphabetically or reverse alphabetically. Any part of an employee name can also be searched in the search bar, with the table results filtering below.
 
-## [Try it yourself!](https://pure-forest-86324.herokuapp.com/)
+## [Try it yourself!](https://powerful-oasis-78948.herokuapp.com/)
 
 The following image shows a glimpse of the application:
 
